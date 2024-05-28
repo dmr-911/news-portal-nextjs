@@ -1,8 +1,14 @@
 import { DUMMY_NEWS } from "@/dummy-news";
+import { notFound } from "next/navigation";
 import React from "react";
 
 const SoloNews = ({ params }) => {
   const newsItem = DUMMY_NEWS.find((item) => item.slug === params.id);
+
+  if (!newsItem) {
+    notFound();
+  }
+
   return (
     <article className="news-article">
       <header>
