@@ -1,16 +1,19 @@
-import React from "react";
-import classes from "./main-header.module.css";
 import Link from "next/link";
 import NavLink from "./nav-link";
 
-const MainHeader = () => {
+export default function MainHeader() {
   return (
-    <div>
-      <p>Main header</p>
-      <NavLink href="/">Home</NavLink>
-      <NavLink href="/news">News</NavLink>
-    </div>
+    <header id="main-header">
+      <div id="logo">
+        <Link href="/">NextNews</Link>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <NavLink href="/news">News</NavLink>
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
-};
-
-export default MainHeader;
+}
