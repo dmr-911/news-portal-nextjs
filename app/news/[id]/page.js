@@ -1,9 +1,14 @@
-import { DUMMY_NEWS } from "@/dummy-news";
 import { notFound } from "next/navigation";
-import React from "react";
 
-const SoloNews = ({ params }) => {
-  const newsItem = DUMMY_NEWS.find((item) => item.slug === params.id);
+import { DUMMY_NEWS } from "@/dummy-news";
+import Link from "next/link";
+
+const NewsDetailPage = ({ params }) => {
+  const newsSlug = params.id;
+  const newsItem =
+    (DUMMY_NEWS.length > 0 &&
+      DUMMY_NEWS?.find((newsItem) => newsItem?.slug === newsSlug)) ||
+    {};
 
   if (!newsItem) {
     notFound();
@@ -12,7 +17,9 @@ const SoloNews = ({ params }) => {
   return (
     <article className="news-article">
       <header>
-        <img src={`/images/news/${newsItem.image}`} alt={newsItem.title} />
+        <Link href={`/news/${newsItem.slug}/image`}>
+          <img src={`/images/news/${newsItem.image}`} alt={newsItem.title} />
+        </Link>
         <h1>{newsItem.title}</h1>
         <time dateTime={newsItem.date}>{newsItem.date}</time>
       </header>
@@ -21,4 +28,4 @@ const SoloNews = ({ params }) => {
   );
 };
 
-export default SoloNews;
+export default NewsDetailPage;
