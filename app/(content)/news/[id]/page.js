@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
-
-import { DUMMY_NEWS } from "@/dummy-news";
 import Link from "next/link";
+import { getAllNews, getNewsItem } from "@/lib/news";
 
-const NewsDetailPage = ({ params }) => {
+const NewsDetailPage = async ({ params }) => {
+  const news = await getAllNews();
   const newsSlug = params.id;
   const newsItem =
-    (DUMMY_NEWS.length > 0 &&
-      DUMMY_NEWS?.find((newsItem) => newsItem?.slug === newsSlug)) ||
+    (news.length > 0 &&
+      news?.find((newsItem) => newsItem?.slug === newsSlug)) ||
     {};
 
   if (!newsItem) {

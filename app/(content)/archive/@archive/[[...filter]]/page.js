@@ -9,7 +9,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const ArchiveYear = ({ params }) => {
+const ArchiveYear = async ({ params }) => {
   const filter = params.filter;
 
   const selectedYear = filter?.[0];
@@ -17,7 +17,7 @@ const ArchiveYear = ({ params }) => {
 
   let news;
   if (selectedYear && !selectedMonth) {
-    news = getNewsForYear(selectedYear);
+    news = await getNewsForYear(selectedYear);
   }
 
   let newsContent = <p>No news found for selected period.</p>;
@@ -26,20 +26,20 @@ const ArchiveYear = ({ params }) => {
     newsContent = <NewsList news={news} />;
   }
 
-  let links = getAvailableNewsYears();
+  let links = await getAvailableNewsYears();
 
   if (selectedYear && !selectedMonth) {
-    news = getNewsForYear(selectedYear);
-    links = getAvailableNewsMonths(selectedYear);
+    news = await getNewsForYear(selectedYear);
+    links = await getAvailableNewsMonths(selectedYear);
   }
 
   if (selectedYear && selectedMonth) {
-    news = getNewsForYearAndMonth(selectedYear, selectedMonth);
+    news = await getNewsForYearAndMonth(selectedYear, selectedMonth);
   }
 
   if (
-    (selectedYear && !getAvailableNewsYears().includes(+selectedYear)) ||
-    (selectedMonth && !getAvailableNewsMonths().includes(+selectedMonth))
+    (selectedYear && (await !getAvailableNewsYears().includes(selectedYear))) ||
+    (selectedMonth && (await !getAvailableNewsMonths().includes(selectedMonth)))
   ) {
     throw new Error("Invalid filter.");
     // notFound();
