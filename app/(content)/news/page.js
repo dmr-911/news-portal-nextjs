@@ -1,14 +1,17 @@
-import Link from "next/link";
 import React from "react";
-import { DUMMY_NEWS } from "@/dummy-news";
-import Image from "next/image";
 import NewsList from "@/components/news/news-list";
 
-const News = () => {
+const News = async () => {
+  const response = await fetch("http://localhost:8080/news");
+  if (!response.ok) {
+    throw new Error("Failed to fetch news.");
+  }
+
+  const news = await response.json();
   return (
     <div>
       <h1>News Page</h1>
-      <NewsList news={DUMMY_NEWS} />
+      <NewsList news={news} />
     </div>
   );
 };
